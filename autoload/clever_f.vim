@@ -13,6 +13,7 @@ let g:clever_f_hide_cursor_on_cmdline  = get(g:, 'clever_f_hide_cursor_on_cmdlin
 let g:clever_f_timeout_ms              = get(g:, 'clever_f_timeout_ms', 0)
 let g:clever_f_mark_char               = get(g:, 'clever_f_mark_char', 1)
 let g:clever_f_repeat_last_char_inputs = get(g:, 'clever_f_repeat_last_char_inputs', ["\<CR>"])
+let g:clever_f_reset_each_time         = get(g:, 'clever_f_reset_each_time', 0)
 
 " below variables must be set before loading this script
 let g:clever_f_mark_cursor_color       = get(g:, 'clever_f_mark_cursor_color', 'Cursor')
@@ -120,7 +121,7 @@ function! clever_f#find_with(map)
     let current_pos = getpos('.')[1 : 2]
 
     let mode = mode(1)
-    if current_pos != get(s:previous_pos, mode, [0, 0])
+    if g:clever_f_reset_each_time || current_pos != get(s:previous_pos, mode, [0, 0])
         let back = 0
         if g:clever_f_mark_cursor
             let cursor_marker = matchadd('CleverFCursor', '\%#', 999)
